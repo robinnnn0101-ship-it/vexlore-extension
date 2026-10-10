@@ -1,0 +1,54 @@
+{
+  "manifest_version": 3,
+  "name": "VEXLORE",
+  "version": "1.4.6",
+  "description": "Cute & fast side panel for token research – Vamp, Bundle, Holders, Dev & Lore",
+  "icons": {
+    "16": "icon.jpg",
+    "32": "icon.jpg",
+    "48": "icon.jpg",
+    "128": "icon.jpg"
+  },
+  "permissions": [
+    "sidePanel",
+    "storage",
+    "clipboardRead"
+  ],
+  "host_permissions": [
+    "https://api.dexscreener.com/*",
+    "https://frontend-api-v3.pump.fun/*",
+    "https://advanced-api-v2.pump.fun/*",
+    "https://api.geckoterminal.com/*",
+    "https://robinhoodchain.blockscout.com/*",
+    "https://api.robinhood.com/*",
+    "https://api.github.com/*",
+    "https://data.solanatracker.io/*",
+    "https://dd.dexscreener.com/*",
+    "https://t.me/*",
+    "https://web.telegram.org/*",
+    "https://api.blockscout.com/*",
+    "https://explorer.arc.io/*",
+    "https://api.arc-scan.org/*",
+    "https://www.arcexplorer.org/*",
+    "https://hyperevmscan.io/*",
+    "https://basescan.org/*",
+    "https://bscscan.com/*",
+    "https://etherscan.io/*",
+    "https://x.com/*",
+    "https://twitter.com/*"
+  ],
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "Open VEXLORE",
+    "default_icon": {
+      "16": "icon.jpg",
+      "32": "icon.jpg",
+      "48": "icon.jpg"
+    }
+  }
+}

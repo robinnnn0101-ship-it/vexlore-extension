@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VEXLORE</title>
+  <style>
+    :root {
+      --bg: #0d0b12;
+      --bg2: #16121f;
+      --card: #1c1728;
+      --border: #2e2640;
+      --pink: #ff4d8d;
+      --pink-soft: #ff7ab3;
+      --purple: #a78bfa;
+      --cyan: #67e8f9;
+      --text: #f4f0ff;
+      --muted: #9b8fb8;
+      --ok: #4ade80;
+      --warn: #fbbf24;
+      --bad: #f87171;
+      --radius: 14px;
+      --shadow: 0 8px 24px rgba(255, 77, 141, 0.12);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.45;
+      overflow-x: hidden;
+    }
+    .app {
+      max-width: 100%;
+      padding: 14px 12px 28px;
+      animation: fadeIn 0.4s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.04); }
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      box-shadow: var(--shadow);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+    .logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .brand h1 {
+      font-size: 18px;
+      letter-spacing: 0.04em;
+      background: linear-gradient(90deg, var(--pink-soft), var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .brand .tag {
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 1px;
+    }
+    .icon-btn {
+      width: 36px;
+      height: 36px;
+      border: 1px solid var(--border);
+      background: var(--bg2);
+      border-radius: 12px;
+      color: var(--text);
+      cursor: pointer;
+      font-size: 16px;
+      display: grid;
+      place-items: center;
+      transition: all 0.2s ease;
+    }
+    .icon-btn:hover {
+      border-color: var(--pink);
+      color: var(--pink-soft);
+      transform: translateY(-1px);
+    }
+    .search-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px;
+      margin-bottom: 10px;
+      box-shadow: var(--shadow);
+      animation: slideUp 0.35s ease;
+    }
+    .search-row {
+      display: flex;
+      gap: 8px;
+    }
+    #q {
+      flex: 1;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 11px 12px;
+      font-size: 13px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+    #q:focus {
+      border-color: var(--pink);
+      box-shadow: 0 0 0 3px rgba(255, 77, 141, 0.18);
+    }
+    #q::placeholder { color: var(--muted); }
+    .btn-main {
+      border: 0;
+      border-radius: 12px;
+      padding: 0 18px;
+      background: linear-gradient(135deg, var(--pink), #e11d74);
+      color: #fff;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      white-space: nowrap;
+      box-shadow: 0 4px 14px rgba(255, 77, 141, 0.35);
+      transition: all 0.2s ease;
+    }
+    .btn-main:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+    }
+    .btn-main:active {
+      transform: translateY(0);
+    }
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+    .chip {
+      border: 1px solid var(--border);
+      background: var(--bg2);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 5px 11px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .chip:hover {
+      border-color: var(--pink);
+      color: var(--pink-soft);
+      background: rgba(255, 77, 141, 0.1);
+      transform: translateY(-1px);
+    }
+    .chip.locked {
+      opacity: 0.78;
+      border-style: dashed;
+    }
+    .hint {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 9px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--ok);
+      box-shadow: 0 0 8px var(--ok);
+      animation: pulse 2s infinite;
+    }
+    #usageBar {
+      font-size: 11px;
+      color: var(--muted);
+      text-align: center;
+      margin: 6px 0 10px;
+      min-height: 16px;
+    }
+    .panel { display: none; }
+    .panel.show { 
+      display: block; 
+      animation: fadeIn 0.3s ease;
+    }
+    .media {
+      display: none;
+      margin-bottom: 10px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--bg2);
+      animation: slideUp 0.3s ease;
+    }
+    .media.show { display: block; }
+    .media .banner {
+      width: 100%;
+      height: 88px;
+      object-fit: cover;
+      display: block;
+      background: linear-gradient(90deg, #2a1830, #1a1430);
+    }
+    .media .row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+    }
+    .media .token-img {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      object-fit: cover;
+      background: var(--border);
+      border: 2px solid rgba(255, 77, 141, 0.35);
+    }
+    .media .name {
+      font-weight: 700;
+      font-size: 14px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .media .sym {
+      font-size: 11px;
+      color: var(--muted);
+    }
+    #out {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 13px;
+      animation: slideUp 0.3s ease;
+    }
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--pink-soft);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .card .body {
+      font-size: 12px;
+      line-height: 1.5;
+      word-break: break-word;
+    }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      margin-right: 6px;
+    }
+    .badge.og { background: rgba(74, 222, 128, 0.15); color: var(--ok); }
+    .badge.vamp { background: rgba(167, 139, 250, 0.18); color: var(--purple); }
+    .badge.check { background: rgba(251, 191, 36, 0.15); color: var(--warn); }
+    .ca {
+      font-family: ui-monospace, monospace;
+      font-size: 11px;
+      color: var(--cyan);
+      word-break: break-all;
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .ca:hover {
+      color: var(--pink-soft);
+    }
+    .muted { color: var(--muted); }
+    .err-box {
+      border-color: rgba(248, 113, 113, 0.4);
+      background: rgba(248, 113, 113, 0.08);
+      color: #fecaca;
+      font-size: 12px;
+      padding: 13px;
+      border-radius: var(--radius);
+    }
+    .loading {
+      text-align: center;
+      padding: 32px 12px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .spinner {
+      width: 28px;
+      height: 28px;
+      border: 3px solid var(--border);
+      border-top-color: var(--pink);
+      border-radius: 50%;
+      margin: 0 auto 12px;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .history-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 11px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--bg2);
+      cursor: pointer;
+      margin-bottom: 6px;
+      transition: all 0.2s ease;
+    }
+    .history-item:hover {
+      border-color: var(--pink);
+      background: rgba(255, 77, 141, 0.07);
+      transform: translateX(3px);
+    }
+    .history-item img {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      object-fit: cover;
+      background: var(--border);
+    }
+    .history-item .h-name {
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .history-item .h-ca {
+      font-size: 10px;
+      color: var(--muted);
+      font-family: ui-monospace, monospace;
+    }
+    .settings label {
+      display: block;
+      font-size: 11px;
+      color: var(--muted);
+      margin: 12px 0 5px;
+    }
+    .settings input[type="password"],
+    .settings input[type="text"] {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 12px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .settings input:focus {
+      border-color: var(--pink);
+    }
+    .save-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 16px;
+    }
+    .btn-soft {
+      flex: 1;
+      border: 1px solid var(--border);
+      background: var(--bg2);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-soft:hover {
+      border-color: var(--pink);
+    }
+    .btn-soft.primary {
+      border: 0;
+      background: linear-gradient(135deg, var(--pink), #e11d74);
+      color: #fff;
+    }
+    .btn-soft.primary:hover {
+      filter: brightness(1.08);
+    }
+    .note {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 12px;
+      line-height: 1.5;
+    }
+    .note a {
+      color: var(--pink-soft);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .footer {
+      text-align: center;
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="header">
+      <div class="brand">
+        <div class="logo">
+          <img src="icon.jpg" alt="VEXLORE" onerror="this.style.display='none'; this.parentElement.innerHTML='💖';">
+        </div>
+        <div>
+          <h1>VEXLORE</h1>
+          <div class="tag">scan · vamp · lore</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;">
+        <button class="icon-btn" id="btnHistory" title="Recent scans">🕘</button>
+        <button class="icon-btn" id="btnSettings" title="Settings">⚙️</button>
+      </div>
+    </div>
+
+    <div id="panelMain" class="panel show">
+      <div class="search-card">
+        <div class="search-row">
+          <input id="q" placeholder="CA · 0x · github.com/owner/repo" autocomplete="off" />
+          <button class="btn-main" id="scan">Scan</button>
+        </div>
+                <div class="chips">
+          <button class="chip" data-kind="vamp">🧛 Vamp</button>
+          <button class="chip locked" data-kind="bundle">🔒 Bundle</button>
+          <button class="chip locked" data-kind="dev">🔒 Dev</button>
+          <button class="chip" data-kind="callouts">📣 Callouts</button>
+          <button class="chip locked" data-kind="holders">🔒 Holders</button>
+          <button class="chip locked" data-kind="lore">🔒 Lore</button>
+          <button class="chip" data-kind="xtracker">🐦 X Tracker</button>
+          <button class="chip" data-kind="git">👾 GitHub</button>
+          <button class="chip" data-kind="tg">✈️ Telegram</button>
+        </div>
+        <div class="hint">
+          <span class="dot"></span>
+          <span id="clipHint">Copy a CA → it auto-pastes here</span>
+        </div>
+      </div>
+      <div id="usageBar">Loading usage...</div>
+      <div class="media" id="media">
+        <img class="banner" id="banner" alt="" />
+        <div class="row">
+          <img class="token-img" id="tokenImg" alt="" />
+          <div class="meta">
+            <div class="name" id="tokenName">—</div>
+            <div class="sym" id="tokenSym">—</div>
+          </div>
+        </div>
+      </div>
+      <div id="out">
+        <div class="card">
+          <div class="body muted">Ready ✨ Paste a CA or copy one — VEXLORE will pick it up.</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="panelHistory" class="panel">
+      <div class="card">
+        <h3>🕘 Recent scans</h3>
+        <div id="historyList"></div>
+        <div class="save-row" style="margin-top:12px;">
+          <button class="btn-soft" id="backFromHistory">← Back</button>
+          <button class="btn-soft" id="clearHistory">Clear history</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="panelSettings" class="panel">
+      <div class="card settings">
+        <h3>⚙️ Settings</h3>
+        <label>Vexlore Special Key (unlock unlimited + premium features)</label>
+        <input id="stKey" type="password" placeholder="Enter your Vexlore special key" />
+        
+        <label>GitHub token (optional — higher rate limits)</label>
+        <input id="ghToken" type="password" placeholder="ghp_…" />
+        
+        <label style="display:flex;align-items:center;gap:8px;margin-top:14px;">
+          <input type="checkbox" id="autoScan" style="width:auto;" />
+          Auto-scan when clipboard has a CA
+        </label>
+
+        <label style="display:flex;align-items:center;gap:8px;margin-top:10px;">
+          <input type="checkbox" id="xSearchOnClick" style="width:auto;" />
+          Open X Tracker when clicking a CA
+        </label>
+
+        <div class="save-row">
+          <button class="btn-soft" id="backMain">← Back</button>
+          <button class="btn-soft primary" id="saveSettings">Save</button>
+        </div>
+        <p class="note">
+          Free plan: 500 basic searches per month.<br>
+          Get unlimited + unlock Bundle, Holders, Dev & Lore with a Vexlore Special Key.<br>
+          Get your key → <a href="https://t.me/VEXLOREAPI" target="_blank">t.me/VEXLOREAPI</a><br>
+          Key is stored only in your browser.<br>
+          All features stay free on Telegram @vexlorebot.<br><br>
+          <b>X Tracker</b> (CA click or 🐦 chip) shows the 3 X searches inside the panel.<br>
+          No tabs are auto-opened.
+        </p>
+      </div>
+    </div>
+    <div class="footer">❤️ Made by Robin with Love · VEXLORE</div>
+  </div>
+  <script src="sidepanel.js"></script>
+</body>
+</html>

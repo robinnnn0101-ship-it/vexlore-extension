@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>VEXLORE</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        width: 280px;
+        margin: 0;
+        padding: 14px;
+        background: #111;
+        color: #fff;
+      }
+      h1 { font-size: 16px; margin: 0 0 8px; }
+      p { font-size: 12px; color: #bbb; margin: 0 0 10px; }
+      input {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 8px;
+        border: 0;
+        border-radius: 6px;
+      }
+      button {
+        width: 100%;
+        margin-top: 8px;
+        padding: 8px;
+        border: 0;
+        border-radius: 6px;
+        background: #ff4d6d;
+        color: #fff;
+        font-weight: bold;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>VEXLORE</h1>
+    <p>Paste a Solana CA or 0x address, then open the bot.</p>
+    <input id="ca" placeholder="CA or 0x..." />
+    <button id="openBot">Open Telegram bot</button>
+    <script src="popup.js"></script>
+  </body>
+</html>
