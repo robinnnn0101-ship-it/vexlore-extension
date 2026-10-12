@@ -1,6 +1,6 @@
 # VEXLORE Extension
 
-Cute & fast **Chrome / Edge side panel** for token research.
+Cute & fast RPC enabled **Chrome / Edge side panel** for token research.
 
 Paste a Solana CA, Robinhood 0x, Arc address, or GitHub link → get **OG / Vamp, holders, dev history & lore** without leaving the tab.
 
